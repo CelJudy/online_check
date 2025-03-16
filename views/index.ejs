@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+    <script type="module">
+        import { io } from "https://cdn.socket.io/4.3.2/socket.io.esm.min.js";
+        let user="";
+        let socket;
+        const server="http://192.168.1.12:3000/";
+        /* socket.on('online', (value)=>{
+            console.log("online", value);
+        }); */
+        //socket.emit('online', "valor");
+
+        document.addEventListener("DOMContentLoaded", function () {
+            document.getElementById("alumnos").addEventListener("change", function () {
+                
+                if(user==""){
+                    socket=io(server, { query: "user="+this.value });
+                    //socket.connect();
+                }else{
+                    console.log("usuario");
+                    socket.disconnect();
+                    if(this.value!="0"){
+                        socket=io(server, { query: "user="+this.value });
+                    }
+                }
+                //socket.connect();
+                user=this.value;
+            });
+        });
+        
+    </script>
+    <div>
+        <select id="alumnos">
+            <option value="0">
+            </option>
+            <% alumnos.segundo.forEach((item, index)=> { %>
+                <option value="<%= index %>,0">
+                    <%= item[0] %>
+                </option>
+                <option value="<%= index %>,1">
+                    <%= item[1] %>
+                </option>
+            <% }); %>
+        </select>
+    </div>
+    
+    <style>
+        html{
+            background-color:#2874a6; 
+            display: flex; 
+            flex-wrap: wrap; 
+            justify-content: center;
+        }
+        h1{
+            border: red 1px solid; 
+            width: 200px; 
+            border-radius:10px
+        }
+        div{
+            display: flex; 
+            flex-wrap: wrap; 
+            column-gap: 10px;
+        }
+    </style>
+</html>

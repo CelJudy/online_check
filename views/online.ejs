@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+    <script type="module">
+        import { io } from "https://cdn.socket.io/4.3.2/socket.io.esm.min.js";
+        const socket=io("http://localhost:3000/", { query: "user=celeste" });
+
+        socket.on('online', (value)=>{
+            document.getElementById(value).style.color="green";
+            document.getElementById(value).style.border="green 1px solid";
+        });
+
+        socket.on('offline', (value)=>{
+            document.getElementById(value).style.color="red";
+            document.getElementById(value).style.border="red 1px solid";
+        });
+        //socket.emit('online', "valor");
+    </script>
+    <% alumnos.segundo.forEach((item, index)=> { %>
+        <div>
+            <h2 id="<%= index %>,0"><%= item[0] %></h2>
+            <h2 id="<%= index %>,1"><%= item[1] %></h2>
+        </div>
+    <% }); %>
+    
+    <style>
+        html{
+            background-color: oklch(0.21 0.034 264.665); 
+            display: flex; 
+            flex-wrap: wrap; 
+            justify-content: center;
+        }
+        h2{
+            color: red;
+            border: red 1px solid; 
+            width: 200px; 
+            border-radius:10px
+        }
+        div{
+            display: flex; 
+            flex-wrap: wrap; 
+            column-gap: 10px;
+        }
+    </style>
+</html>
