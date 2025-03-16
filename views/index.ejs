@@ -11,16 +11,16 @@
         //socket.emit('online', "valor");
 
         document.addEventListener("DOMContentLoaded", function () {
-            document.getElementById("alumnos").addEventListener("change", function () {
-                
+            document.getElementById("boton").addEventListener("click", function () {
+                const value=document.getElementById("alumnos").value;
                 if(user==""){
-                    socket=io(server, { query: "user="+this.value });
+                    socket=io(server, { query: "user="+value });
                     //socket.connect();
                 }else{
                     console.log("usuario");
                     socket.disconnect();
-                    if(this.value!="0"){
-                        socket=io(server, { query: "user="+this.value });
+                    if(value!="0"){
+                        socket=io(server, { query: "user="+value });
                     }
                 }
                 //socket.connect();
@@ -42,6 +42,7 @@
                 </option>
             <% }); %>
         </select>
+        <button id="boton">conectar</button>
     </div>
     
     <style>
