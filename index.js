@@ -11,7 +11,7 @@ app.use(cors());
 
 app.engine("ejs", require("ejs").renderFile);
 app.set("view engine", "ejs");  
-let alumnos=require("./alumnos.json");
+let alumnos=require("./listas/segundo.json");
 
 io.on('connection', (socket)=>{
 
