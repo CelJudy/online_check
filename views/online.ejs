@@ -1,8 +1,19 @@
 <!DOCTYPE html>
 <html>
+    <link rel="shortcut icon" href="#">
+    <!-- <script src="http://localhost:3000/socket.io/socket.io.js"></script> -->
     <script type="module">
         import { io } from "https://cdn.socket.io/4.3.2/socket.io.esm.min.js";
         const socket=io("http://localhost:3000/", { query: "user=celeste" });
+
+        socket.on('list', (value)=>{
+            value.forEach((item, index)=> {
+                if(item.online){
+                    document.getElementById(index).style.color="green";
+                    document.getElementById(index).style.border="green 1px solid";
+                }
+            });
+        });
 
         socket.on('online', (value)=>{
             document.getElementById(value).style.color="green";
@@ -15,13 +26,15 @@
         });
         //socket.emit('online', "valor");
     </script>
-    <% alumnos.segundo.forEach((item, index)=> { %>
         <div>
-            <h2 id="<%= index %>,0"><%= item[0] %></h2>
-            <h2 id="<%= index %>,1"><%= item[1] %></h2>
+            <% alumnos.forEach((item, index)=> { %>
+                <% if(index%4==0){ %>
+                    </div><div>
+                <% } %>  
+                <h3 id="<%= index %>"><%= item.nombre %></h3>
+                
+            <% }); %>
         </div>
-    <% }); %>
-    
     <style>
         html{
             background-color: oklch(0.21 0.034 264.665); 
@@ -29,7 +42,7 @@
             flex-wrap: wrap; 
             justify-content: center;
         }
-        h2{
+        h3{
             color: red;
             border: red 1px solid; 
             width: 200px; 

@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <link rel="shortcut icon" href="#">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- <script src="http://localhost:3000/socket.io/socket.io.js"></script> -->
         <script type="module">
             import { io } from "https://cdn.socket.io/4.3.2/socket.io.esm.min.js";
             let user="";
             let socket;
-            const server="http://192.168.1.12:3000/";
+            const server="http://localhost:3000/";
             /* socket.on('online', (value)=>{
                 console.log("online", value);
             }); */
@@ -34,14 +36,11 @@
     </head>
     <div>
         <select id="alumnos">
-            <option value="0">
+            <option value="-1">
             </option>
-            <% alumnos.segundo.forEach((item, index)=> { %>
-                <option value="<%= index %>,0">
-                    <%= item[0] %>
-                </option>
-                <option value="<%= index %>,1">
-                    <%= item[1] %>
+            <% alumnos.forEach((item, index)=> { %>
+                <option value="<%= index %>">
+                    <%= item.nombre %>
                 </option>
             <% }); %>
         </select>

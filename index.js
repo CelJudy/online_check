@@ -11,38 +11,49 @@ app.use(cors());
 
 app.engine("ejs", require("ejs").renderFile);
 app.set("view engine", "ejs");  
-const alumnos=require("./alumnos.json");
-
-let ips=[]
+let alumnos=require("./alumnos.json");
 
 io.on('connection', (socket)=>{
     //console.log("usuario conectado", socket.handshake.query.user);
     //console.log("ips", ips);
     //console.log("ip", socket.handshake.address);
 
-    if(ips.indexOf(socket.handshake.address)<0){
+    if(socket.handshake.query.user=="celeste"){
+        io.emit('list', alumnos);
+    }else{
+        if(alumnos.find((item)=>item.ip==socket.handshake.address)===undefined){
+            alumnos[socket.handshake.query.user].online=true;
+            alumnos[socket.handshake.query.user].ip=socket.handshake.address;
+            io.emit('online', socket.handshake.query.user);
+        }
+    }
+
+    /* if(ips.indexOf(socket.handshake.address)<0){
         ips.push(socket.handshake.address);
         //console.log("ips conectadas", ips);
         if(socket.handshake.query.user!="celeste"){
             io.emit('online', socket.handshake.query.user);
         }
-    }
+    } */
 
         /* if(socket.handshake.query.user!="celeste"){
             io.emit('online', socket.handshake.query.user);
         } */
 
     socket.on('disconnect', ()=>{
-
-        const index=ips.indexOf(socket.handshake.address);
+        if(socket.handshake.query.user!="celeste"){
+            alumnos[socket.handshake.query.user].online=false;
+            alumnos[socket.handshake.query.user].ip="";
+            io.emit('offline', socket.handshake.query.user);
+        }
+        //console.log(alumnos);
+        /* const index=ips.indexOf(socket.handshake.address);
         //console.log("antes de eliminar", ips);
         //console.log("index", socket.handshake.address);
         if(index>=0){
             ips.splice(index, 1);
             //console.log("despues de eliminar", ips);
-        }
-        //console.log("usuario desconectado", socket.handshake.query.user);
-        io.emit('offline', socket.handshake.query.user);
+        } */
     });
 
     
