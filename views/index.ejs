@@ -7,37 +7,15 @@
         <script type="module">
             const server=window.location.href;
             document.getElementById('myScript').src = `${server}socket.io/socket.io.js`;
-            //import { io } from "https://cdn.socket.io/4.3.2/socket.io.esm.min.js";
-            let user="";
             let socket;
-            
-            /* socket.on('online', (value)=>{
-                console.log("online", value);
-            }); */
-            //socket.emit('online', "valor");
-
-            function success(){
-                socket.on('check', (value)=>{
-                    document.getElementById("alert").style.display="";
-                });
-            }
 
             document.addEventListener("DOMContentLoaded", function () {
                 document.getElementById("boton").addEventListener("click", function () {
                     const value=document.getElementById("alumnos").value;
-                    if(user==""){
-                        socket=io.connect(server, { query: "user="+value });
-                        success();
-                        //socket.connect();
-                    }else{
-                        console.log("usuario");
-                        socket.disconnect();
-                        if(value!="0"){
-                            socket=io.connect(server, { query: "user="+value });
-                        }
-                    }
-                    //socket.connect();
-                    user=this.value;
+                    socket=io.connect(server, { query: "user="+value });
+                    socket.on('check', (value)=>{
+                        document.getElementById("alert").style.display="";
+                    });
                 });
             });
             
