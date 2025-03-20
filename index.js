@@ -22,8 +22,10 @@ io.on('connection', (socket)=>{
         io.emit('list', alumnos);
     }else{
         if(alumnos.find((item)=>item.ip==socket.handshake.address)===undefined){
+
             alumnos[socket.handshake.query.user].online=true;
             alumnos[socket.handshake.query.user].ip=socket.handshake.address;
+            io.emit('check', 1);
             io.emit('online', socket.handshake.query.user);
         }
     }

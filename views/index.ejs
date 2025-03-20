@@ -14,11 +14,18 @@
             }); */
             //socket.emit('online', "valor");
 
+            function success(){
+                socket.on('check', (value)=>{
+                    document.getElementById("alert").style.display="";
+                });
+            }
+
             document.addEventListener("DOMContentLoaded", function () {
                 document.getElementById("boton").addEventListener("click", function () {
                     const value=document.getElementById("alumnos").value;
                     if(user==""){
                         socket=io(server, { query: "user="+value });
+                        success();
                         //socket.connect();
                     }else{
                         console.log("usuario");
@@ -45,6 +52,7 @@
             <% }); %>
         </select>
         <button id="boton">conectar</button>
+        <h3 id="alert" style="display:none">success</h3>
     </div>
     
     <style>
@@ -55,10 +63,8 @@
             flex-wrap: wrap; 
             justify-content: center;
         }
-        h1{
-            border: red 1px solid; 
-            width: 200px; 
-            border-radius:10px
+        h3{
+            color:greenyellow
         }
         div{
             display: flex; 
